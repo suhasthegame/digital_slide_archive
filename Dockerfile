@@ -66,7 +66,7 @@ RUN cd /opt && \
     pip install --no-cache-dir -e .
 
 RUN cd /opt && \
-    git clone https://github.com/girder/girder_worker && \
+    git clone -b migration https://github.com/suhasthegame/girder_worker.git  && \
     cd /opt/girder_worker && \
     pip install --no-cache-dir -e .[girder,worker]
 
@@ -76,16 +76,16 @@ RUN cd /opt && \
     pip install --no-cache-dir -e .
 
 RUN cd /opt && \
-    git clone https://github.com/girder/slicer_cli_web && \
+    git clone -b migration https://github.com/suhasthegame/slicer_cli_web.git && \
     cd /opt/slicer_cli_web && \
     pip install --no-cache-dir -e .
 
-RUN cd /opt && \
-    git clone https://github.com/girder/large_image && \
-    cd /opt/large_image && \
-    pip install --no-cache-dir --find-links https://girder.github.io/large_image_wheels -e .[memcached] -rrequirements-dev.txt && \
-    # Reduice docker size by de-duplicating some libraries that get installed \
-    rdfind -minsize 1048576 -makehardlinks true -makeresultsfile false /opt/venv
+# RUN cd /opt && \
+#     git clone https://github.com/girder/large_image && \
+#     cd /opt/large_image && \
+#     pip install --no-cache-dir --find-links https://girder.github.io/large_image_wheels -e .[memcached] -rrequirements-dev.txt && \
+#     # Reduice docker size by de-duplicating some libraries that get installed \
+#     rdfind -minsize 1048576 -makehardlinks true -makeresultsfile false /opt/venv
 
 RUN cd /opt && \
     git clone https://github.com/DigitalSlideArchive/HistomicsUI && \

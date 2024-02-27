@@ -2,8 +2,7 @@
 version: '3'
 services:
   girder:
-    image: dsarchive/dsa_common
-    build: ../..
+    image: "suhaskc/dsacommon:test"
     # Instead of privileged mode, fuse can use:
     # devices:
     #   - /dev/fuse:/dev/fuse
@@ -26,6 +25,7 @@ services:
       # Mount options can be used to, for instance, add diskcache (e.g.,
       #  "-o diskcache,diskcache_size_limit=2147483648")
       DSA_GIRDER_MOUNT_OPTIONS: ${DSA_GIRDER_MOUNT_OPTIONS:-}
+      RUNTIME: "SINGULARITY"
       # You can also set girder settings here:
       # GIRDER_SETTING_CORE_HTTP_ONLY_COOKIES: true
     restart: unless-stopped
@@ -96,7 +96,7 @@ services:
     image: "mongo:latest"
     # Set DSA_USER to your user id (e.g., `DSA_USER=$(id -u):$(id -g)`)
     # so that database files are owned by yourself.
-    user: ${DSA_USER:-PLEASE SET DSA_USER}
+    user: ${DSA_USER}
     restart: unless-stopped
     # Limiting maxConns reduces the amount of shared memory demanded by
     # mongo.  Remove this limit or increase the host vm.max_map_count value.
@@ -139,8 +139,7 @@ services:
         max-size: "10M"
         max-file: "5"
   worker:
-    image: dsarchive/dsa_common
-    build: ../..
+    image: "suhaskc/dsacommon:test"
     # Set DSA_USER to a user id that is part of the docker group (e.g.,
     # `DSA_USER=$(id -u):$(id -g)`).  This provides permissions to manage
     # docker
@@ -148,6 +147,7 @@ services:
       DSA_USER: ${DSA_USER:-}
       DSA_WORKER_CONCURRENCY: ${DSA_WORKER_CONCURRENCY:-2}
       DSA_PROVISION_YAML: ${DSA_PROVISION_YAML:-/opt/digital_slide_archive/devops/dsa/provision.yaml}
+      RUNTIME: "SINGULARITY"
       TMPDIR:
     restart: unless-stopped
     volumes:
