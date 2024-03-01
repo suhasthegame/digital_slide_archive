@@ -2,7 +2,7 @@
 version: '3'
 services:
   girder:
-    image: "suhaskc/dsacommon:test"
+    image: "dsarchive/dsa_common"
     # Instead of privileged mode, fuse can use:
     # devices:
     #   - /dev/fuse:/dev/fuse
@@ -55,8 +55,8 @@ services:
       # - /opt/girder/clients/python/girder_client.egg-info
       # - ../../../girder:/opt/girder
 
-      # - /opt/girder_worker/girder_worker.egg-info
-      # - ../../../../girder_worker:/opt/girder_worker
+      - /opt/girder_worker/girder_worker.egg-info
+      - ../../../girder_worker:/opt/girder_worker
 
       # - /opt/girder_worker_utils/girder_worker_utils.egg-info
       # - ../../../../girder_worker_utils:/opt/girder_worker_utils
@@ -64,8 +64,8 @@ services:
       # - /opt/HistomicsUI/histomicsui.egg-info
       # - ../../../HistomicsUI:/opt/HistomicsUI
 
-      # - /opt/slicer_cli_web/girder_slicer_cli_web.egg-info
-      # - ../../../slicer_cli_web:/opt/slicer_cli_web
+      - /opt/slicer_cli_web/girder_slicer_cli_web.egg-info
+      - ../../../slicer_cli_web:/opt/slicer_cli_web
 
       # - /opt/large_image/girder_annotation/girder_large_image_annotation.egg-info
       # - /opt/large_image/girder/girder_large_image.egg-info
@@ -139,7 +139,7 @@ services:
         max-size: "10M"
         max-file: "5"
   worker:
-    image: "suhaskc/dsacommon:test"
+    image: "dsarchive/dsa_common"
     # Set DSA_USER to a user id that is part of the docker group (e.g.,
     # `DSA_USER=$(id -u):$(id -g)`).  This provides permissions to manage
     # docker
@@ -162,6 +162,7 @@ services:
       - ./start_worker.sh:/opt/digital_slide_archive/devops/dsa/start_worker.sh
       # Needed to allow transferring data to slicer_cli_web docker containers
       - ${TMPDIR:-/tmp}:${TMPDIR:-/tmp}
+      - ../../../girder_worker:/opt/local_girder_worker
       # Add additional mounts here to get access to existing files on your
       # system if they have the same path as on the girder container.
     depends_on:

@@ -103,3 +103,8 @@ worker:
   # Run additional shell commands in the worker before start
   # shell:
   #   - ls
+pip:
+  - -e /opt/girder_worker
+  - -e /opt/slicer_cli_web
+  - -e /opt/local_girder_worker
+  
